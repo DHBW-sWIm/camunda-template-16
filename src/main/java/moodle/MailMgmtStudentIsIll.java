@@ -5,10 +5,8 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -24,20 +22,14 @@ public class MailMgmtStudentIsIll implements JavaDelegate {
         String studentReason = (String) execution.getVariable("student_reason");
         Date studentLength = (Date) execution.getVariable("student_length");
 
-
-
-//        LocalDateTime studentSickUntilDate = LocalDateTime.parse(studentLength);
-
-//        DateTimeFormatter  formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
-//        String formattedDate = formatter.format(studentSickUntilDate);
-
-
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String sickUntil = dateFormat.format(studentLength);
 
         String content = "<h1>Sie haben eine neue Krankschreibung erhalten</h1>"
                 + "<p>Student: " + studentName + "</p>"
                 + "<p>Matrikelnummer: " + studentMatnr + "</p>"
                 + "<p>Grund der Krankschreibung: " + studentReason + "</p>"
-                + "<p>Bis: " + studentLength + "</p>"
+                + "<p>Bis: " + sickUntil + "</p>"
                 + "<a href='www.moodle.com'>Link zum Moodle Bestätigungsform</a>";
 
 
@@ -46,7 +38,7 @@ public class MailMgmtStudentIsIll implements JavaDelegate {
         try {
             Mail.send(receiver, subject, content);
         } catch (MessagingException e) {
-            //TODO: refactor in own class
+//            TODO: refactor in own class
             LOGGER.info("\n\n  ... LoggerDelegate invoked by "
                     + "processDefinitionId=" + execution.getProcessDefinitionId()
                     + ", activtyId=" + execution.getCurrentActivityId()
@@ -57,7 +49,6 @@ public class MailMgmtStudentIsIll implements JavaDelegate {
                     + " \n\n"
                     + "STACKTRACE\n"
                     + Arrays.toString(e.getStackTrace()));
-
         }
     }
 }
