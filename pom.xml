@@ -204,9 +204,10 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-          <url>http://localhost:8080/manager/text</url>
-          <username>admin</username>
-          <password>admin</password>
+          <!--<url>http://localhost:8080/manager/text</url>-->
+          <url>https://tomcat.bpxtest.moodle-dhbw.de/manager/text</url>
+          <username>swim</username>
+          <password>!swim-access?</password>
         </configuration>
       </plugin>
       <plugin>
