@@ -9,7 +9,7 @@ public class Mail {
     // set your SMTP Host
     private static final String SMTP_HOST = "swim_bpxtest_mailhog";
     // set your email address. Be aware, that the email address does not exists, which should be made clear.
-    private static final String SENDER = "noreply@bpxtest.moodle-dhbw.de";
+    private static final String SENDER = "noreply@moodle-dhbw.de";
 
     public static void send(String receiver, String subject, String content) throws MessagingException
     {
@@ -28,7 +28,7 @@ public class Mail {
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
 
-        //TODO: send attachments
+        //TODO: send attachments - is that needed?
         message.setContent(multipart);
 
         Transport.send( message );
