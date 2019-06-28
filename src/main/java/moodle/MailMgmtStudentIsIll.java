@@ -44,7 +44,7 @@ public class MailMgmtStudentIsIll implements JavaDelegate {
         try {
             Mail.send(receiver, subject, content);
         } catch (MessagingException e) {
-            CamundaLogger.log(execution, e, LoggerDelegate.class.getName());
+            CamundaLogger.log(execution, e, MailMgmtStudentIsIll.class.getName());
         }
     }
 }
