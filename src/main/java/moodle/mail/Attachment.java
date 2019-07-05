@@ -1,19 +1,35 @@
 package moodle.mail;
 
 
+import org.camunda.bpm.engine.variable.value.FileValue;
+
+import java.io.InputStream;
+
 public class Attachment {
 
     private final String fileName;
     private final String mimeType;
-    private final String base64;
+    private final InputStream fileContent;
 
-    public Attachment(String fileName, String mimeType, String base64) {
+    public Attachment(String fileName, String mimeType, InputStream fileValue) {
         this.fileName = fileName;
         this.mimeType = mimeType;
-        this.base64 = base64;
+        this.fileContent = fileValue;
     }
 
-    public String getFileName() {
+    public static Attachment fromFileValue(FileValue fileValue) {
+        String filename = fileValue.getFilename();
+        String mimetype = fileValue.getMimeType();
+        InputStream fileContent = fileValue.getValue();
+
+        return new Attachment(filename, mimetype, fileContent);
+    }
+
+    public InputStream getFileContent() {
+        return fileContent;
+    }
+
+    public String getFilename() {
         return this.fileName;
     }
 
@@ -21,7 +37,4 @@ public class Attachment {
         return this.mimeType;
     }
 
-    public String getBase64() {
-        return this.base64;
-    }
 }

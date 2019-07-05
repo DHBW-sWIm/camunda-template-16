@@ -1,5 +1,7 @@
 package moodle.mail;
 
+import org.apache.commons.io.IOUtils;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.*;
@@ -8,7 +10,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-import java.util.Base64;
+import java.io.IOException;
 import java.util.Properties;
 
 public class Message {
@@ -38,13 +40,13 @@ public class Message {
         this.multipart = multipart;
     }
 
-    public Message addAttachment(Attachment attachment) throws MessagingException {
+    public Message addAttachment(Attachment attachment) throws MessagingException, IOException {
         BodyPart messageBodyPart = new MimeBodyPart();
-        byte[] bytes = Base64.getDecoder().decode(attachment.getBase64());
+        byte[] bytes = IOUtils.toByteArray(attachment.getFileContent());
         DataSource source = new ByteArrayDataSource(bytes, attachment.getMimeType());
 
         messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(attachment.getFileName());
+        messageBodyPart.setFileName(attachment.getFilename());
 
         this.multipart.addBodyPart(messageBodyPart);
 
